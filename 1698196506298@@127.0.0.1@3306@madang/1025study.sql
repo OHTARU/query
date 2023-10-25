@@ -1,4 +1,5 @@
 -- Active: 1698196506298@@127.0.0.1@3306@madang
+-- 부속질의
 select custid, 
 (select address from customer cs where cs.custid = od.custid) address,
 (select name from customer cs where cs.custid = od.custid),
@@ -29,4 +30,15 @@ SELECT orderid, custid, saleprice
 FROM ORDERS od
 WHERE saleprice > (SELECT AVG(saleprice)
 FROM ORDERS so WHERE od.custid=so.custid);
+
+-- VIEW
+
+CREATE view vorders as
+select orderid, O.custid, name, O.bookid, bookname, saleprice, orderdate
+from customer C, orders O, book B
+where C.custid = O.custid and B.bookid = O.bookid;
+
+select * from vorders;
+
+drop view vorders;
 
